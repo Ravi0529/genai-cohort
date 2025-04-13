@@ -1,3 +1,6 @@
+# json.dumps() ---> Python object (dict) to JSON string
+# json.loads() ---> JSON string to Python object (dict)
+
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
@@ -83,7 +86,7 @@ while True:
             contents=messages,
         )
         cleaned_text = re.sub(r"^```json|```$", "", response.text.strip(), flags=re.MULTILINE).strip()
-        
+
         try: 
             parsed_output = json.loads(cleaned_text)
             messages.append(json.dumps(parsed_output))
