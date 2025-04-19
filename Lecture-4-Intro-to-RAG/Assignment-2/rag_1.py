@@ -1,10 +1,14 @@
+#### ERROR #### Code not working due to Gemini key limitations
+#### ERROR #### Code not working due to Gemini key limitations
+#### ERROR #### Code not working due to Gemini key limitations
+#### ERROR #### Code not working due to Gemini key limitations
+#### ERROR #### Code not working due to Gemini key limitations
+
 from pathlib import Path
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from google import genai
-
-# from langchain_openai import OpenAIEmbeddings
-# from langchain_qdrant import QdrantVectorStore
+from langchain_qdrant import QdrantVectorStore
 import os
 from dotenv import load_dotenv
 
@@ -25,9 +29,21 @@ split_docs = text_splitter.split_documents(documents=docs)
 
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-embedder = client.models.embed_content(
-    model="gemini-embedding-exp-03-07"
-)
+texts = [doc.page_content.strip() for doc in split_docs if doc.page_content.strip()]
+texts = texts[:1]
 
+embedder = client.models.embed_content(
+    model="gemini-embedding-exp-03-07", contents=texts
+)
 # print(embedder.embeddings)
-# print("Injection Done")
+
+embeddings = embedder.embeddings
+
+vector_store = QdrantVectorStore.from_documents(
+    documents=[],
+    url="http://localhost:6333",
+    collection_name="learning_langchain",
+    embedding=embeddings,
+)
+vector_store.add_documents(documents=texts)
+print("Injection Done")
