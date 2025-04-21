@@ -25,11 +25,29 @@ embedder = GoogleGenerativeAIEmbeddings(
     google_api_key=os.getenv("GEMINI_API_KEY"), model="models/text-embedding-004"
 )
 
-vector_store = QdrantVectorStore.from_documents(
-    documents=[],
+# vector_store = QdrantVectorStore.from_documents(
+#     documents=[],
+#     url="http://localhost:6333",
+#     collection_name="learning_langchain",
+#     embedding=embedder,
+# )
+# vector_store.add_documents(documents=split_docs)
+# print("Injection Done")
+
+retrival = QdrantVectorStore.from_existing_collection(
     url="http://localhost:6333",
     collection_name="learning_langchain",
     embedding=embedder,
 )
-vector_store.add_documents(documents=split_docs)
-print("Injection Done")
+
+search_results = retrival.similarity_search(
+    query="What is FS Module?"
+)
+print("Relevant chunks: ", search_results)
+
+# system prompt
+system_prompt = f"""
+    You are an helpful AI assistant that is used to answer questions.
+
+    context: {search_results}
+"""
