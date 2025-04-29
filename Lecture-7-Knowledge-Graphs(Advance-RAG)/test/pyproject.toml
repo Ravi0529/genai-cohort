@@ -1,0 +1,14 @@
+[project]
+name = "test"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dotenv>=0.9.9",
+    "langchain-neo4j>=0.4.0",
+    "mem0ai>=0.1.94",
+    "memory>=1.0.0",
+    "openai>=1.76.0",
+    "rank-bm25>=0.2.2",
+]
