@@ -1,0 +1,18 @@
+[project]
+name = "assignment-1"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dotenv>=0.9.9",
+    "langchain>=0.3.25",
+    "langchain-community>=0.3.24",
+    "langchain-neo4j>=0.4.0",
+    "langchain-text-splitters>=0.3.8",
+    "mem0ai>=0.1.102",
+    "memory>=1.0.0",
+    "openai>=1.82.0",
+    "pypdf>=5.5.0",
+    "rank-bm25>=0.2.2",
+]
