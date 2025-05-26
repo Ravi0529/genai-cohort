@@ -47,13 +47,13 @@ openai_client = OpenAI(api_key=OPENAI_API_KEY)
 def chat(message):
     mem_result = mem_client.search(query=message, user_id="p123")
 
-    print(
-        "mem_result",
-    )
+    # print(
+    #     "mem_result",
+    # )
 
     memories = "\n".join([m["memory"] for m in mem_result.get("results")])
 
-    print(f"\n\nMEMORY:\n\n{memories}\n\n")
+    # print(f"\n\nMEMORY:\n\n{memories}\n\n")
 
     SYSTEM_PROMPT = f"""
         You are a Memory-Aware Fact Extraction Agent, an advanced AI designed to
