@@ -7,7 +7,6 @@ from pydantic import (
     BaseModel,
 )  # this BaseModel is for validation of the code, just like Zod
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
 
