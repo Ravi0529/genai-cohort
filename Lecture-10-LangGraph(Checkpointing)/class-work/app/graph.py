@@ -17,7 +17,7 @@ class State(TypedDict):
 
 def chatbot(state: State):
     return {
-        "messages": [llm.invoke[state["messages"]]]
+        "messages": [llm.invoke(state["messages"])]
     }  # llm invokes all the messages in the state
 
 
