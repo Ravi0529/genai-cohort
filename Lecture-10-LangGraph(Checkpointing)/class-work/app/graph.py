@@ -2,11 +2,29 @@ from typing import Annotated
 from typing_extensions import TypedDict
 from langgraph.graph.message import add_messages
 from langchain.chat_models import init_chat_model
+from langchain_core.tools import tool  # it is a decorator to create tools for the LLM
+from langgraph.types import interrupt
 from langgraph.graph import StateGraph, START, END
+from langgraph.prebuilt import ToolNode, tools_condition
+
+
+@tool()  # This is a tool, not a node. It will run directly by the LLM when it is invoked
+def human_assistant_tool(query: str):
+    """Request assistance from a human."""
+    human_response = interrupt(
+        {"query": query}
+    )  # Graph will exit out after saving the current state data in DB
+    return human_response[
+        "data"
+    ]  # Resume with the data from the human response(["data"] --> contains the human response)
+
+
+tools = [human_assistant_tool]
 
 llm = init_chat_model(
     model_provider="openai", model="gpt-4o-mini"
 )  # Initialize the chat model using OpenAI's GPT-3.5 Turbo (using langchain --> going more abstract)
+llm_with_tools = llm.bind_tools(tools)  # Bind the tools to the LLM
 
 
 class State(TypedDict):
@@ -16,21 +34,31 @@ class State(TypedDict):
 
 
 def chatbot(state: State):
-    return {
-        "messages": [llm.invoke(state["messages"])]
-    }  # llm invokes all the messages in the state
+    message = llm_with_tools.invoke(state["messages"])
+    assert len(message.tool_calls) <= 1
+    return {"messages": [message]}
+    # return {
+    #     # "messages": [llm.invoke(state["messages"])]
+    #     "messages": [llm_with_tools.invoke(state["messages"])]
+    # }  # llm invokes all the messages in the state
 
+
+tool_node = ToolNode(tools=tools)
 
 graph_builder = StateGraph(State)
 
 ### Nodes and Edges
 graph_builder.add_node("chatbot", chatbot)
+graph_builder.add_node("tools", tool_node)
 
 graph_builder.add_edge(START, "chatbot")
+graph_builder.add_conditional_edges("chatbot", tools_condition)
+graph_builder.add_edge("tools", "chatbot")
 graph_builder.add_edge("chatbot", END)
 
 # Graph without any Memory or Checkpointing
 graph = graph_builder.compile()
+
 
 # Graph with Checkpointing
 def create_chat_graph(checkpointer):

@@ -4,6 +4,7 @@
 
 # from .graph import graph
 from dotenv import load_dotenv
+
 load_dotenv()
 
 from graph import create_chat_graph
@@ -11,7 +12,7 @@ from langgraph.checkpoint.mongodb import MongoDBSaver
 
 MONGODB_URI = "mongodb://localhost:27017/"
 config = {
-    "configurable": {"thread_id": "1"}
+    "configurable": {"thread_id": "3"}
 }  # this is just like a unique user id, so that the graph can store the state for each user separately
 
 
