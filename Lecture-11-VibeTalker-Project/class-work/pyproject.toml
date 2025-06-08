@@ -1,0 +1,17 @@
+[project]
+name = "class-work"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "asyncio>=3.4.3",
+    "dotenv>=0.9.9",
+    "langchain>=0.3.25",
+    "langchain-openai>=0.3.21",
+    "langgraph>=0.4.8",
+    "langgraph-checkpoint-mongodb>=0.1.3",
+    "openai[voice-helpers]>=1.84.0",
+    "pyaudio>=0.2.14",
+    "speechrecognition>=3.14.3",
+]
