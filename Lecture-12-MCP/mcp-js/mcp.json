@@ -1,10 +1,8 @@
 {
   "mcpServers": {
     "my-server": {
-      "command": "node",
-      "args": [
-        "D:\\VScode\\GenAI\\'GenAI Cohort'\\Lecture-12-MCP\\mcp-js\\index.js"
-      ]
+      "command": "cmd",
+      "args": ["/c", "C:/mcp/my-server.bat"]
     }
   }
 }
