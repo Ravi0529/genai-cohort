@@ -3,7 +3,7 @@
         "my-server": {
             "command": "node",
             "args": [
-                "cd /d/VScode/GenAI/GenAI Cohort/Lecture-12-MCP(Model-Context-Protocol)/mcp-js/index.js"
+                "/d/VScode/GenAI/GenAI Cohort/Lecture-12-MCP(Model-Context-Protocol)/mcp-js/index.js"
             ]
         }
     }
